@@ -73,10 +73,17 @@ const MeetingsPage = async () => {
                 <div className="grid grid-cols-3 justify-between items-center">
                   <div>
                     <p className="text-muted-foreground text-sm">
+                      {/* @ts-ignore*/}
                       {format(fromUnixTime(item.when.startTime), "EEE, dd MMM")}
                     </p>
                     <p className="text-muted-foreground text-xs pt-1">
-                      {format(fromUnixTime(item.when.startTime), "hh:mm a")} -{" "}
+                      {/* @ts-ignore*/}
+                      {format(
+                        //@ts-ignore
+                        fromUnixTime(item.when.startTime),
+                        "hh:mm a"
+                      )}{" "}
+                      - {/* @ts-ignore*/}
                       {format(fromUnixTime(item.when.endTime), "hh:mm a")}
                     </p>
                     <div className="flex items-center mt-1">
@@ -84,6 +91,7 @@ const MeetingsPage = async () => {
                       <a
                         className="text-xs text-primary underline underline-offset-4"
                         target="_blank"
+                        //@ts-ignore
                         href={item.conferencing.details.url}
                       >
                         Join Meeting
@@ -99,6 +107,7 @@ const MeetingsPage = async () => {
                   <SubmitButton
                     text="Cancel Event"
                     variant="destructive"
+                    //@ts-ignore
                     className="w-fit flex ml-auto"
                   />
                 </div>

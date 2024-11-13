@@ -14,7 +14,10 @@ import { BookMarked, CalendarX2, Clock } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
-
+interface Availability {
+  day: string;
+  isActive: boolean;
+}
 async function getData(username: string, eventName: string) {
   const eventType = await prisma.eventType.findFirst({
     where: {
