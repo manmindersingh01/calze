@@ -1,4 +1,3 @@
-//import { TimeSlots } from "@/app/components/TimeSlots";
 import { createMeetingAction } from "@/app/actions";
 import prisma from "@/app/lib/db";
 import { RenderCalendar } from "@/components/bookingform/RenderCalendar";
@@ -8,16 +7,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-
-//import { format } from "date-fns";
 import { BookMarked, CalendarX2, Clock } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import React from "react";
+
 interface Availability {
   day: string;
   isActive: boolean;
 }
+
 async function getData(username: string, eventName: string) {
   const eventType = await prisma.eventType.findFirst({
     where: {
@@ -33,7 +31,6 @@ async function getData(username: string, eventName: string) {
       title: true,
       duration: true,
       videoCallingSoftware: true,
-
       user: {
         select: {
           image: true,
@@ -56,13 +53,18 @@ async function getData(username: string, eventName: string) {
   return eventType;
 }
 
-const BookingPage = async ({
-  params,
-  searchParams,
-}: {
-  params: { username: string; eventName: string };
-  searchParams: { date?: string; time?: string };
-}) => {
+interface PageProps {
+  params: {
+    username: string;
+    eventName: string;
+  };
+  searchParams: {
+    date?: string;
+    time?: string;
+  };
+}
+
+const BookingPage = async ({ params, searchParams }: PageProps) => {
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();
@@ -96,7 +98,6 @@ const BookingPage = async ({
               <p className="text-sm font-medium text-muted-foreground">
                 {eventType.description}
               </p>
-
               <div className="mt-5 grid gap-y-3">
                 <p className="flex items-center">
                   <CalendarX2 className="size-4 mr-2 text-primary" />
@@ -122,7 +123,6 @@ const BookingPage = async ({
               orientation="vertical"
               className="hidden md:block h-full w-[1px]"
             />
-
             <form
               className="flex flex-col gap-y-4"
               action={createMeetingAction}
@@ -140,12 +140,10 @@ const BookingPage = async ({
                 <Label>Your Name</Label>
                 <Input name="name" placeholder="Your Name" />
               </div>
-
               <div className="flex flex-col gap-y-1">
                 <Label>Your Email</Label>
                 <Input name="email" placeholder="johndoe@gmail.com" />
               </div>
-
               <SubmitButton text="Book Meeting" />
             </form>
           </CardContent>
@@ -184,28 +182,24 @@ const BookingPage = async ({
                 <p className="flex items-center">
                   <BookMarked className="size-4 mr-2 text-primary" />
                   <span className="text-sm font-medium text-muted-foreground">
-                    Google Meet
+                    {eventType.videoCallingSoftware}
                   </span>
                 </p>
               </div>
             </div>
-
             <Separator
               orientation="vertical"
               className="hidden md:block h-full w-[1px]"
             />
-
             <div className="my-4 md:my-0">
               <RenderCalendar
-                daysofWeek={eventType.user?.availability as any}
+                daysofWeek={eventType.user?.availability as Availability[]}
               />
             </div>
-
             <Separator
               orientation="vertical"
               className="hidden md:block h-full w-[1px]"
             />
-
             <TimeSlots
               selectedDate={selectedDate}
               userName={params.username}
