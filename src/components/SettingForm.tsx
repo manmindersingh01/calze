@@ -15,11 +15,10 @@ import { Input } from "./ui/input";
 import { SubmitButton } from "./SubmitButtons";
 import { useFormState } from "react-dom";
 import { settingAction } from "@/app/actions";
-import { any } from "zod";
+
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { settingSchema } from "@/app/lib/zodeSchemas";
-import Image from "next/image";
 import { Button } from "./ui/button";
 import { icons, X } from "lucide-react";
 import { UploadButton, UploadDropzone } from "@/app/lib/uploadthing";
@@ -30,7 +29,7 @@ interface iAppType {
   username: string;
   image: string;
 }
-export default function settingForm({
+export default function SettingForm({
   email,
   name,
   username,
