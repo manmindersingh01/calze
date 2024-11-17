@@ -53,30 +53,18 @@ async function getData(username: string, eventName: string) {
   return eventType;
 }
 
-// interface PageProps {
-//   params: {
-//     username: string;
-//     eventName: string;
-//   };
-//   searchParams: {
-//     date?: string;
-//     time?: string;
-//   };
-// }
-
-const BookingPage = async ({
-  params,
-  searchParams,
-}: {
+interface PageProps {
   params: {
     username: string;
     eventName: string;
   };
   searchParams: {
-    date: string;
-    time: string;
+    date?: string;
+    time?: string;
   };
-}) => {
+}
+
+const BookingPage = async ({ params, searchParams }: PageProps) => {
   const { username, eventName } = params;
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
