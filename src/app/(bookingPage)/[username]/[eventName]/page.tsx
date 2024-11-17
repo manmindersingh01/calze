@@ -65,7 +65,7 @@ interface PageProps {
 }
 
 const BookingPage = async ({ params, searchParams }: PageProps) => {
-  const { username, eventName } = await params;
+  const { username, eventName } = params;
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();
