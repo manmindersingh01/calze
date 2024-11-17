@@ -10,7 +10,6 @@ import { Separator } from "@/components/ui/separator";
 import { BookMarked, CalendarX2, Clock } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import type { SegmentParams } from "next/dist/lib/metadata/types/route-segment";
 
 interface Availability {
   day: string;
@@ -55,7 +54,7 @@ async function getData(username: string, eventName: string) {
 }
 
 interface PageProps {
-  params: Promise<SegmentParams<{ username: string; eventName: string }>>;
+  params: { username: string; eventName: string };
   searchParams: {
     date?: string;
     time?: string;
@@ -63,10 +62,10 @@ interface PageProps {
 }
 
 const BookingPage = async ({ params, searchParams }: PageProps) => {
-  const [username, eventName] = await params;
-  const selectedDate = searchParams.date
-    ? new Date(searchParams.date)
-    : new Date();
+  const { eventName, username } = await params;
+  const { date, time } = await searchParams;
+
+  const selectedDate = date ? new Date(date) : new Date();
   const eventType = await getData(username, eventName);
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -75,7 +74,7 @@ const BookingPage = async ({ params, searchParams }: PageProps) => {
     month: "long",
   }).format(selectedDate);
 
-  const showForm = !!searchParams.date && !!searchParams.time;
+  const showForm = !!date && !!time;
 
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
@@ -127,9 +126,9 @@ const BookingPage = async ({ params, searchParams }: PageProps) => {
               action={createMeetingAction}
             >
               <input type="hidden" name="eventTypeId" value={eventType.id} />
-              <input type="hidden" name="username" value={params.username} />
-              <input type="hidden" name="fromTime" value={searchParams.time} />
-              <input type="hidden" name="eventDate" value={searchParams.date} />
+              <input type="hidden" name="username" value={username} />
+              <input type="hidden" name="fromTime" value={time} />
+              <input type="hidden" name="eventDate" value={date} />
               <input
                 type="hidden"
                 name="meetingLength"
@@ -201,7 +200,7 @@ const BookingPage = async ({ params, searchParams }: PageProps) => {
             />
             <TimeSlots
               selectedDate={selectedDate}
-              userName={params.username}
+              userName={username}
               meetingDuration={eventType.duration}
             />
           </CardContent>
