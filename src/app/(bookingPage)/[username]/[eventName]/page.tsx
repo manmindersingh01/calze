@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { BookMarked, CalendarX2, Clock } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import type { SegmentParams } from "next/dist/lib/metadata/types/route-segment";
 
 interface Availability {
   day: string;
@@ -54,10 +55,7 @@ async function getData(username: string, eventName: string) {
 }
 
 interface PageProps {
-  params: {
-    username: string;
-    eventName: string;
-  };
+  params: Promise<SegmentParams<{ username: string; eventName: string }>>;
   searchParams: {
     date?: string;
     time?: string;
@@ -65,7 +63,7 @@ interface PageProps {
 }
 
 const BookingPage = async ({ params, searchParams }: PageProps) => {
-  const { username, eventName } = params;
+  const [username, eventName] = await params;
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();
