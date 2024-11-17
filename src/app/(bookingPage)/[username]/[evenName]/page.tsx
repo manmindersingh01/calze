@@ -65,10 +65,11 @@ interface PageProps {
 }
 
 const BookingPage = async ({ params, searchParams }: PageProps) => {
+  const { username, eventName } = await params;
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();
-  const eventType = await getData(params.username, params.eventName);
+  const eventType = await getData(username, eventName);
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     weekday: "long",
