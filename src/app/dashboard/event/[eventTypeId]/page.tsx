@@ -23,15 +23,11 @@ async function GetData(eventTypeId: string) {
   }
   return data;
 }
-export default async function EditRoute({
-  params,
-}: {
-  params: {
-    eventTypeId: string;
-  };
-}) {
-  const data = await GetData(params.eventTypeId);
-  console.log("hgashdj", data);
+type Params = Promise<{ eventTypeId: string }>;
+export default async function EditRoute({ params }: { params: Params }) {
+  const { eventTypeId } = await params;
+  const data = await GetData(eventTypeId);
+  //console.log("hgashdj", data);
 
   return (
     <>
