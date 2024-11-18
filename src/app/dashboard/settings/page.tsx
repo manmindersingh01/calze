@@ -11,7 +11,7 @@ interface iAppType {
   username: string;
   image: string;
 }
-export async function getData(id: string) {
+async function getData(id: string) {
   const data = await prisma.user.findUnique({
     where: {
       id: id,
