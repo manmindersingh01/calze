@@ -55,12 +55,12 @@ async function getData(username: string, eventName: string) {
 
 interface PageProps {
   params: Params;
-  searchParams: {
-    date?: string;
-    time?: string;
-  };
+  searchParams: SearchParams;
 }
-type Params = Promise<{ username: string; eventName: string }>; // same as  this
+type Params = Promise<{ username: string; eventName: string }>;
+// same as  this
+type SearchParams = Promise<{ date?: string; time?: string }>;
+
 const BookingPage = async ({ params, searchParams }: PageProps) => {
   const { eventName, username } = await params;
   const { date, time } = await searchParams;
