@@ -23,7 +23,7 @@ import { Switch } from "@/components/ui/switch";
 import { notFound } from "next/navigation";
 import React from "react";
 
-export const getData = async (id: string) => {
+const getData = async (id: string) => {
   const data = await prisma.availability.findMany({
     where: {
       user_id: id,
