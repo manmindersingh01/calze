@@ -4,13 +4,6 @@ import SettingForm from "@/components/SettingForm";
 import { notFound } from "next/navigation";
 import React from "react";
 
-interface iAppType {
-  id: string;
-  name: string;
-  email: string;
-  username: string;
-  image: string;
-}
 async function getData(id: string) {
   const data = await prisma.user.findUnique({
     where: {
@@ -31,17 +24,22 @@ async function getData(id: string) {
 
   return data;
 }
-export default async function SettingsPage(id: string) {
-  const session = await requireUser();
-  const data = await getData(session.user?.id as string);
+
+export default async function Page() {
+  const session = await requireUser(); // Get the user session
+  const data = await getData(session.user?.id as string); // Fetch data using the user ID
+
   return (
     <>
       <SettingForm
         name={data.name as string}
-        email={data.email}
+        email={data.email as string}
         username={data.username as string}
         image={data.image as string}
       />
     </>
   );
 }
+
+// const session = await requireUser();
+//   const data = await getData(session.user?.id as string);
