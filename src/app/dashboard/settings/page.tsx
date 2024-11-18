@@ -31,7 +31,7 @@ async function getData(id: string) {
 
   return data;
 }
-export default async function page(id: string) {
+export default async function SettingsPage(id: string) {
   const session = await requireUser();
   const data = await getData(session.user?.id as string);
   return (
